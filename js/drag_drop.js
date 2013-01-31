@@ -39,7 +39,8 @@ var draggable_cloned = {
             if ($('.ui-draggable-dragging').hasClass('original')){
                 element = $('.ui-draggable-dragging').clone();
                 $(element).prependTo("#workarea");
-                $('.ui-draggable-dragging').removeClass('original');
+                $('.ui-draggable-dragging').removeClass('original').append('<div class="delete">X</div>');
+                icon_over_delete();
                 $(element).draggable(draggable_cloned);
                 $(element).css('opacity', '1');
                 //$('#workarea').keydown(checkKey);
@@ -54,6 +55,12 @@ var draggable_cloned = {
     
     
 });
+
+function icon_over_delete(){
+     $('.ui-draggable-dragging').mouseover(function(){ $(this).find('div.delete').css('display', 'block'); })
+     $('.ui-draggable-dragging').mouseout(function(){ $(this).find('div.delete').css('display', 'none'); })
+     $('.ui-draggable-dragging').find('div.delete').click(function(){$(this).parent().remove()}); 
+}
 
 $(function() {
     

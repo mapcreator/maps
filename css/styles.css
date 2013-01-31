@@ -8,7 +8,7 @@ a:hover {text-decoration:underline;}
 table{margin:0px; border-spacing:0; border-collapse:collapse;}
 table tr td{padding:0px;}
 input{border: 1px solid #ddd;}
-
+.delete{ float:right; display: none;}
 .row{
     float: left;
 }
