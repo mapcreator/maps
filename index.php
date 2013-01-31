@@ -22,9 +22,17 @@ include 'views/header.php';
                 </div>
             </div>
             <div class="group">
-                <h3>Section 2</h3>
+                <h3>Shapes</h3>
                 <div>
-                    <p>Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In suscipit faucibus urna. </p>
+                   <div class="lefticon draggable_shape original line">---<br />line</div> 
+                   <div class="lefticon draggable_shape original rectangle">|=|<br />rectangle</div> 
+                   
+                   <!--
+                   <ul id="selectable_draw">
+                   <li>---- line</li> 
+                   <li>-/-/- pencil</li> 
+                   </ul>
+                   -->
                 </div>
             </div>
             <div class="group">
