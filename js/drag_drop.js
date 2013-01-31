@@ -7,6 +7,7 @@ var draggable_original = {
     distance: 5,
     helper: "clone",
     opacity: 0.5,
+    stack: ".lefticon",
     start: function(e, ui){
         //$('.ui-draggable-dragging').draggable(draggable_original);
         
@@ -15,12 +16,15 @@ var draggable_original = {
 var draggable_cloned = {
     distance: 5,
     opacity: 0.5,
-    handle: "#workarea",
+    containment: "parent",
+    stack: ".lefticon",
     start: function(e, ui){
 
     },
 };
 
+    //$( "#workarea" ).selectable();
+    
     $( ".draggable" ).draggable(draggable_original);
     
     $( "#workarea" ).droppable({
@@ -30,16 +34,20 @@ var draggable_cloned = {
         
             posX = $(this).position().left;
             posY = $(this).position().top;
+            var element;
             //alert( 'X='+(e.pageX - posX) + ' , Y=' + (e.pageY - posY)+' UI_top='+ui.offset.top+' UI_left='+ui.offset.left);
             if ($('.ui-draggable-dragging').hasClass('original')){
-                var e_new = $('.ui-draggable-dragging').clone();
-                $(e_new).prependTo("#workarea");
+                element = $('.ui-draggable-dragging').clone();
+                $(element).prependTo("#workarea");
                 $('.ui-draggable-dragging').removeClass('original');
-                $(e_new).draggable(draggable_cloned);
+                $(element).draggable(draggable_cloned);
+                $(element).css('opacity', '1');
+                //$('#workarea').keydown(checkKey);
+                //$(element).bind('mousedown', selectElement);
+                $('#workarea').selectable({
+                    appendTo: ".lefticon"
+                });
             }
-            //alert(draggable_options);
-            //$(e).draggable(draggable_options);
-            
         },
         
     });
@@ -65,3 +73,19 @@ $(function() {
     });
     
 });
+
+function checkKey(evt){
+    alert('checkKey');
+    return;
+    evt = (evt) ? evt : window.event;
+    if (evt.keyCode && evt.keyCode=='13'){
+        send();
+    }
+}
+
+function selectElement(){
+    //alert('select!');
+    $('.selected').removeClass('selected');
+    $(this).addClass('selected');
+}
+

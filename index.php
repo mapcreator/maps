@@ -51,7 +51,11 @@ include 'views/header.php';
     
     <!-- WORKFLOW -->    
     <div id="workarea" class="col">
-    
+        <!--
+        <div class="lefticon">111</div>
+        <div class="lefticon">222</div>
+        <div class="lefticon">333</div>
+        -->
     </div> 
     <!-- END OF WORKFLOW -->
     
