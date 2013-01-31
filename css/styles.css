@@ -20,9 +20,6 @@ input{border: 1px solid #ddd;}
 #left_tools{
     width: 300px;
 }
-#workarea{
-    width: 600px;
-}
 #right_tools{
     width: 300px;
 }
@@ -47,6 +44,15 @@ input{border: 1px solid #ddd;}
 .drop-hover{
     border: 1px solid #000;
 }
+.selected{
+    border: 1px solid #FF0000;
+}
+#workarea{
+    width: 600px;
+    /*border: 1px solid #999;*/
+}
+
+
 
 /*
 .drow_options{ float:right; display: none;}
