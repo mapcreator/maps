@@ -16,16 +16,16 @@ include 'views/header.php';
             <div class="group">
                 <h3>Section 1</h3>
                 <div>
-                    <div class="lefticon draggable original">:-)</div>
-                    <div class="lefticon draggable original">:-(</div>
-                    <div class="lefticon draggable original">:-0</div>
+                    <div class="lefticon draggable originalicon">:-)</div>
+                    <div class="lefticon draggable originalicon">:-(</div>
+                    <div class="lefticon draggable originalicon">:-0</div>
                 </div>
             </div>
             <div class="group">
                 <h3>Shapes</h3>
                 <div>
-                   <div class="lefticon draggable_shape original line">---<br />line</div> 
-                   <div class="lefticon draggable_shape original rectangle">|=|<br />rectangle</div> 
+                   <div class="lefticon draggable_shape originalshape line">---<br />line</div> 
+                   <div class="lefticon draggable_shape originalshape rectangle">|=|<br />rectangle</div> 
                    
                    <!--
                    <ul id="selectable_draw">
@@ -55,15 +55,10 @@ include 'views/header.php';
         </div>
     </div>
     <!-- END LEFT TOOL BAR -->
-
     
     <!-- WORKFLOW -->    
     <div id="workarea" class="col">
-        <!--
-        <div class="lefticon">111</div>
-        <div class="lefticon">222</div>
-        <div class="lefticon">333</div>
-        -->
+        <div id="background"></div>
     </div> 
     <!-- END OF WORKFLOW -->
     

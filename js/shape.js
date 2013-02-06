@@ -1,5 +1,4 @@
 
-$(function() {
 
 var posX;
 var posY;
@@ -24,47 +23,8 @@ var draggable_cloned_shape = {
     },
 };
 
+$(function() {
     $( ".draggable_shape" ).draggable(draggable_original_shape);
-    
-    $( "#workarea" ).droppable({
-        hoverClass: "drop-hover",
-        tolerance: "fit",
-        drop: function( e, ui ) {
-        
-            posX = $(this).position().left;
-            posY = $(this).position().top;
-            var w = 0;
-            var h = 0;    
-            //alert( 'X='+(e.pageX - posX) + ' , Y=' + (e.pageY - posY)+' UI_top='+ui.offset.top+' UI_left='+ui.offset.left);
-            if ($('.ui-draggable-dragging').hasClass('original')){
-                
-                if ($('.ui-draggable-dragging').hasClass('line')){ w = 200; h = 5; }
-                if ($('.ui-draggable-dragging').hasClass('rectangle')){ w = 107; h = 57; }
-                
-                var e_new = $('.ui-draggable-dragging').clone();
-                $(e_new).prependTo("#workarea");
-                $('.ui-draggable-dragging').removeClass('original')
-                                           .removeClass('lefticon')   
-                                           .html('<canvas width="'+w+'" height="'+h+'"></canvas><div class="drow_options"><div class="delete">Del</div> <div class="resize">Resize</div> <div class="rotate">Rot</div></div>');  
-                $(e_new).draggable(draggable_cloned_shape);
-                icon_over_delete();
-               
-               if ($('.ui-draggable-dragging').hasClass('line')){ 
-                   reDrawLaine($('.ui-draggable-dragging').find("canvas"), 200,1, "#000")
-               }
-               
-               
-               if ($('.ui-draggable-dragging').hasClass('rectangle')){ 
-                   reDrawRectangle($('.ui-draggable-dragging').find("canvas"),100,50,"#800000");
-               }
-                                  
-            }
-            
-        },
-        
-    });
-    
-    
 });
 
 function icon_over_delete(){
@@ -106,5 +66,28 @@ function reDrawLaine(obj, length, strokeWidth, color){
         //     x3: 200, y3: 100,
         //     x4: 150, y4: 200
                 });
+}
+
+function dropShape(){
+    var w = 0;
+    var h = 0;
+    if ($('.ui-draggable-dragging').hasClass('line')){ w = 200; h = 5; }
+    if ($('.ui-draggable-dragging').hasClass('rectangle')){ w = 107; h = 57; }
+    
+    var e_new = $('.ui-draggable-dragging').clone();
+    $(e_new).prependTo("#workarea");
+    $('.ui-draggable-dragging').removeClass('originalshape')
+                               .removeClass('lefticon')   
+                               .html('<canvas width="'+w+'" height="'+h+'"></canvas><div class="drow_options"><div class="delete">Del</div> <div class="resize">Resize</div> <div class="rotate">Rot</div></div>');  
+    $(e_new).draggable(draggable_cloned_shape);
+    icon_over_delete();
+   
+    if ($('.ui-draggable-dragging').hasClass('line')){ 
+        reDrawLaine($('.ui-draggable-dragging').find("canvas"), 200,1, "#000")
+    }
+
+    if ($('.ui-draggable-dragging').hasClass('rectangle')){ 
+        reDrawRectangle($('.ui-draggable-dragging').find("canvas"),100,50,"#800000");
+    }
 }
 

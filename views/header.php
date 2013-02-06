@@ -13,8 +13,12 @@
     
     
     <link rel="stylesheet" type="text/css" href="css/styles.css" />
-    <script type="text/javascript" src="js/drag_drop.js"></script>
     <script type="text/javascript" src="js/shape.js"></script>  
+    <script type="text/javascript" src="js/icon.js"></script>  
+    <script type="text/javascript" src="js/drag_drop.js"></script>
+    
+    <!-- ДЛЯ РАБОТЫ С ФИГУРАМИ РАСКОММЕНТИТЬ ЭТОТ СКРИПТ. ЗАКОММЕНЧЕНО, Т.К. ОН ЛОМАЕТ ПОВЕДЕНИЕ DRAG'N'DROP ДЛЯ ПЕРВОЙ ВКЛАДКИ -->
+    
     
 </head>
 <body>

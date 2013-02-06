@@ -57,9 +57,20 @@ input{border: 1px solid #ddd;}
 /*
 .drow_options{ float:right; display: none;}
 #feedback { font-size: 1.4em; }
+*/
+/*
 #selectable_draw .ui-selecting { background: #FECA40; }
 #selectable_draw .ui-selected { background: #F39814;  }
 #selectable_draw { list-style-type: none; margin: 0; padding: 0; width: 100%;}
 #selecteble_draw li { margin: 3px; padding: 0.4em; font-size: 1.4em;  width: 50px; height: 50px; }
 */
-
+.ui-selecting {
+    background: #ff0000;
+}
+.ui-selected {
+    background: #00ff00;
+}
+#background{
+    background: #f6f6f6;
+    position: absolute;
+}
