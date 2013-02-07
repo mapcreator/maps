@@ -21,24 +21,12 @@ include 'views/header.php';
                     <div class="lefticon draggable originalicon">:-0</div>
                 </div>
             </div>
+            
             <div class="group">
                 <h3>Shapes</h3>
-                <div>
-                   <div class="lefticon draggable_shape originalshape line">---<br />line</div> 
-                   <div class="lefticon draggable_shape originalshape rectangle">|=|<br />rectangle</div> 
-                   
-                   <!--
-                   <ul id="selectable_draw">
-                   <li>---- line</li> 
-                   <li>-/-/- pencil</li> 
-                   </ul>
-                   -->
-                </div>
-            </div>
-            <div class="group">
-                <h3>Tools</h3>
                 <div id="tools">
-                   <div class="lefticon tool originaltool poligon">POLIGON</div> 
+                   <div class="lefticon tool poligon">POLIGON</div>
+                   <div class="lefticon tool rectangle">RECT</div>  
                 </div>
                 <div id="tollsbg"></div>
             </div>
@@ -82,7 +70,20 @@ include 'views/header.php';
     
     <!-- RIGHT TOOL BAR -->    
     <div id="right_tools" class="col">
-        
+         <div id="accordion_tools">
+            <div class="group">
+                <h3>Curves</h3>
+                <div id="curves">
+                    
+                </div>
+            </div>
+            <div class="group">
+                <h3>Adv</h3>
+                <div id="adv">
+                  
+                </div>
+            </div>
+         </div>
     </div>
     <!-- END OF RIGHT TOOL BAR -->
     
