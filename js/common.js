@@ -2,7 +2,7 @@
 
 
 $(function() {
-    resizeBackground();
+//    resizeBackground();
     
     $( "body" ).bind('keydown', function(e){
         e = (e) ? e : window.event;
@@ -25,7 +25,7 @@ $(function() {
                 dropIcon(e);
             }
             if ($('.ui-draggable-dragging').hasClass('originalshape')){
-                dropShape();
+                dropShape(e);
             }
         },
     });

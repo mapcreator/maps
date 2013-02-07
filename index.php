@@ -36,6 +36,13 @@ include 'views/header.php';
                 </div>
             </div>
             <div class="group">
+                <h3>Tools</h3>
+                <div id="tools">
+                   <div class="lefticon tool originaltool poligon">POLIGON</div> 
+                </div>
+                <div id="tollsbg"></div>
+            </div>
+            <div class="group">
                 <h3>Section 3</h3>
                 <div>
                     <p>Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis. Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui. </p>

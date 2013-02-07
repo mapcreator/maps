@@ -68,16 +68,18 @@ function reDrawLaine(obj, length, strokeWidth, color){
                 });
 }
 
-function dropShape(){
+function dropShape(e){
     var w = 0;
     var h = 0;
     if ($('.ui-draggable-dragging').hasClass('line')){ w = 200; h = 5; }
     if ($('.ui-draggable-dragging').hasClass('rectangle')){ w = 107; h = 57; }
+ 
     
     var e_new = $('.ui-draggable-dragging').clone();
     $(e_new).prependTo("#workarea");
-    $('.ui-draggable-dragging').removeClass('originalshape')
-                               .removeClass('lefticon')   
+    $(e_new).removeClass('ui-draggable-dragging');
+    $(e_new).removeClass('originalshape')
+                               .removeClass('lefticon')
                                .html('<canvas width="'+w+'" height="'+h+'"></canvas><div class="drow_options"><div class="delete">Del</div> <div class="resize">Resize</div> <div class="rotate">Rot</div></div>');  
     $(e_new).draggable(draggable_cloned_shape);
     icon_over_delete();
