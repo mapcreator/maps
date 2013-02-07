@@ -75,7 +75,17 @@ input{border: 1px solid #ddd;}
     background: #f6f6f6;
     position: absolute;     
 }
+#background > canvas{
+    background: none;
+    position: absolute; 
+    margin: 0;
+    padding: 0;   
+}
 #tollsbg{
     background: #f6f6f6;
-    position: absolute;     
+    position: absolute;    
+}
+
+#curves > div {
+    cursor: pointer;
 }
