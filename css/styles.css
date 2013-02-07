@@ -50,6 +50,7 @@ input{border: 1px solid #ddd;}
 #workarea{
     width: 600px;
     /*border: 1px solid #999;*/
+    background: #f600f6;
 }
 
 
@@ -68,7 +69,7 @@ input{border: 1px solid #ddd;}
     background: #ff0000;
 }
 .ui-selected {
-    background: #00ff00;
+    background: #ff0000;
 }
 #background{
     background: #f6f6f6;

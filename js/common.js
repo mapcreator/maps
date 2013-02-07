@@ -1,4 +1,4 @@
-
+var new_id = 1;
 
 
 $(function() {
@@ -6,9 +6,16 @@ $(function() {
     
     $( "body" ).bind('keydown', function(e){
         e = (e) ? e : window.event;
-        if (e.keyCode && e.keyCode=='46'){
-            if ($('.ui-selecting').attr('id')!='background'){
+        if (e.keyCode){
+            if (e.keyCode=='46'){
                 $('.ui-selecting').remove();
+            } else if (e.keyCode=='65'){
+                if (e.ctrlKey !== false) {
+                    $("#background").click();
+                    $("#workarea > div").addClass("ui-selecting");
+                    $("#background").removeClass("ui-selecting");
+                    return false;
+                }
             }
         }
     });
@@ -54,4 +61,14 @@ $(function() {
 function resizeBackground(){
     $('#background').css('width', $('#workarea').width());
     $('#background').css('height', $('#workarea').height());
+}
+
+function setNewId(el){
+    if ($(el).attr('id')==undefined){
+        $(el).attr('id', "el_"+new_id);
+        new_id++;
+        return $(el).attr('id');
+    }else{
+        return false;
+    }
 }
