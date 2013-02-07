@@ -48,7 +48,7 @@ input{border: 1px solid #ddd;}
     border: 1px solid #FF0000;
 }
 #workarea{
-    width: 600px;
+    width: 600px;             
     /*border: 1px solid #999;*/
     background: #f600f6;
 }
@@ -73,5 +73,9 @@ input{border: 1px solid #ddd;}
 }
 #background{
     background: #f6f6f6;
-    position: absolute;
+    position: absolute;     
+}
+#tollsbg{
+    background: #f6f6f6;
+    position: absolute;     
 }
