@@ -13,7 +13,6 @@
     
     
     <link rel="stylesheet" type="text/css" href="css/styles.css" />
-    <script type="text/javascript" src="js/shape.js"></script>  
     <script type="text/javascript" src="js/icon.js"></script>  
     <script type="text/javascript" src="js/tools.js"></script>  
     <script type="text/javascript" src="js/common.js"></script>
