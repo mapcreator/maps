@@ -24,10 +24,10 @@ $(function(){
         tool = $(this);
         
         if(tool.hasClass('ui-selecting')){  
- 
+
             // клик на бэкграунд после выбора инструмента    
             $('#background').mousedown(function(e){ 
-                
+               
                 // создаем canvas с проверкой, что не кликнули на слой из панели 
                 if($('#tool'+id).attr('id') != 'tool'+id){
                     layer['tool'+id] = new canvasLayer('#background', id );
@@ -35,6 +35,7 @@ $(function(){
                     
                     //создаем новый слой в панели слоев
                     createToolLayer('tool'+id);
+                    getLayer('tool'+id)
                 }
                 
                 // берем первые координаты
@@ -159,13 +160,13 @@ function createToolLayer(id){
 function getLayer(nid){
    
    $.each(layer, function(idd,v){
-       alert('id ='+idd+';  z-ind ='+$('#'+idd).css('z-index')+' nid='+nid+' cssWidth ='+$('#'+idd).css('whidth'));
            $('#'+idd).css('z-index', idd.replace('tool','')); 
    })
    
    $('#'+nid).css('z-index', '6000');
    $('#'+nid).css('background-color', '#FFC0C0');
    $('#'+nid).css('opacity', '0.8');
+   $('#'+nid).addClass('ui-draggable-dragging');
    
    selected_id = nid;
    
