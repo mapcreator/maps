@@ -119,6 +119,7 @@ function select_tool(obj){
 function deselect_tool(obj){  
     $('#tools > div').removeClass('ui-selecting');
     selected_id = 0;
+    resetLeyersZzindex();
 }
 
 // переводим курсор в крестик
@@ -143,7 +144,7 @@ function canvasLayer(location, idd) {
        .text('unsupported browser')
        .width(this.width)
        .height(this.height)
-       .css('z-index', idd)   
+     //  .css('z-index', idd)   
        .appendTo(location);
        
     this.context = this.element.getContext("2d");
@@ -159,15 +160,20 @@ function createToolLayer(id){
 // выбор холста
 function getLayer(nid){
    
-   $.each(layer, function(idd,v){
-           $('#'+idd).css('z-index', idd.replace('tool','')); 
-   })
+   resetLeyersZzindex();
    
    $('#'+nid).css('z-index', '6000');
    $('#'+nid).css('background-color', '#FFC0C0');
    $('#'+nid).css('opacity', '0.8');
-   $('#'+nid).addClass('ui-draggable-dragging');
+ //  $('#'+nid).addClass('ui-draggable-dragging');
    
    selected_id = nid;
    
+}
+
+function resetLeyersZzindex(){
+    $.each(layer, function(idd,v){
+           $('#'+idd).css('z-index', 0);
+           $('#'+idd).css('background', 'none'); 
+   })
 }
