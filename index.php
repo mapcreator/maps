@@ -23,12 +23,27 @@ include 'views/header.php';
             </div>
             
             <div class="group">
+            <!--
                 <h3>Shapes</h3>
                 <div id="tools">
                    <div class="lefticon tool poligon">POLIGON</div>
                    <div class="lefticon tool rectangle">RECT</div>  
                 </div>
                 <div id="tollsbg"></div>
+            -->
+                <h3>Shapes</h3>
+                <div id="tools">
+                <!--
+                   <div class="originalicon draggable originalicon road">
+                        <div class="road_ico"></div>
+                        <div style="display: none;" class="rotate_ico"></div>
+                        <div style="display: none;" class="resize_ico"></div>
+                   </div>
+                -->   
+                   <div class="lefticon originalicon draggable originalicon tool">
+                   </div>
+                   
+                </div>
             </div>
             <div class="group">
                 <h3>Section 3</h3>
@@ -74,7 +89,8 @@ include 'views/header.php';
             <div class="group">
                 <h3>Curves</h3>
                 <div id="curves">
-                    
+                
+                <div id="layerbackground"></div>     
                 </div>
             </div>
             <div class="group">
@@ -85,8 +101,7 @@ include 'views/header.php';
             </div>
          </div>
     </div>
-    <!-- END OF RIGHT TOOL BAR -->
-    
+    <!-- END OF RIGHT TOOL BAR -->   
 </div>
 <!-- end of main container -->
 

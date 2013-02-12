@@ -30,9 +30,8 @@ $(function() {
             //alert( 'X='+(e.pageX - posX) + ' , Y=' + (e.pageY - posY)+' UI_top='+ui.offset.top+' UI_left='+ui.offset.left);
             if ($('.ui-draggable-dragging').hasClass('originalicon')){
                 dropIcon(e);
-            }
-            if ($('.ui-draggable-dragging').hasClass('originalshape')){
-                dropShape(e);
+
+            
             }
         },
     });
