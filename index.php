@@ -23,26 +23,10 @@ include 'views/header.php';
             </div>
             
             <div class="group">
-            <!--
                 <h3>Shapes</h3>
                 <div id="tools">
-                   <div class="lefticon tool poligon">POLIGON</div>
-                   <div class="lefticon tool rectangle">RECT</div>  
-                </div>
-                <div id="tollsbg"></div>
-            -->
-                <h3>Shapes</h3>
-                <div id="tools">
-                <!--
-                   <div class="originalicon draggable originalicon road">
-                        <div class="road_ico"></div>
-                        <div style="display: none;" class="rotate_ico"></div>
-                        <div style="display: none;" class="resize_ico"></div>
-                   </div>
-                -->   
-                   <div class="lefticon originalicon draggable originalicon tool">
-                   </div>
-                   
+                   <div class="lefticon originalicon tool line_ico">Line</div>
+                   <div class="lefticon originalicon tool polygon_ico">Poligon</div>
                 </div>
             </div>
             <div class="group">

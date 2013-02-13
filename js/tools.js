@@ -1,59 +1,60 @@
 var tool;
-var layer = {};
 
 var posCX = 0;
 var posCY =  0;
 
-var id = 0;
-var selected_id = 0;
-
 var cX;
 var cY;
 var mX;
-var mY;      
+var mY;   
+
+var i;   
 
 var line_obj; 
-var parent_off_first;              
+var poly_obj = '';  
+
+var cklick = 0;          
 
 $(function(){
     
     $('.tool').click(function(e){
-
-        cX=0;
-        cY=0;
-        mX=0;
-        mY=0;
-
-        if(selected_id==0){
-            id = id+1;   
-        }
-        else{
-            id = selected_id.replace("tool", "");   
-        }
-
-        selected_tool($(this)); 
-
-        tool = $(this);
-      
+                      
+        tool = $(this); 
+        
+        selected_tool(tool);                         
+                                 
         if(tool.hasClass('ui-selecting')){  
-
+             i = 0;  
+             cX=0; cY=0; mX=0; mY=0; 
             // клик на бэкграунд после выбора инструмента    
-            $('#background').mousedown(function(e){ 
+        $('#background').on('mousedown.poly', function(e){ 
              
                 // берем первые координаты
                 posCX = e.pageX;
                 posCY = e.pageY;   
                 var parentOffset = $(this).parent().offset();
-                parent_off_first = parentOffset;
+
+                // какой инструмент выбран
+                //if(tool.hasClass('line'))
+                
+                var obj_class = '';
+                if(tool.hasClass('line_ico')) obj_class = 'line';
+                if(tool.hasClass('polygon_ico')) obj_class = 'polygon';
+              
+                //Создаем объект линии 
                 line_obj = $('<div>', {      
-                                class: 'poligon',
+                                class: obj_class,
                             }).css('left',(posCX-parentOffset.left)+'px').css('top', (posCY-parentOffset.top)+'px');
-                $('#background').append(line_obj);      
                 
-            });      
+                 
                 
-            // последние координаты     
-             $('#background').mouseup(function(e){
+            // последние координаты  
+            // если тут поставить mousemove то начнет полигон рисовать
+            // правда дописать надо чтоб все линии в одном контенте были   
+            
+            // CREATING LINE  строим полигон, если был выбран инструмент полигона 
+            
+             $('#background').on('mousemove.poly', function(e){
                  var parentOffset = $(this).parent().offset(); 
                      
                      cX = parseInt((posCX-parentOffset.left));
@@ -61,30 +62,52 @@ $(function(){
                      mX = parseInt((e.pageX-parentOffset.left));
                      mY = parseInt((e.pageY-parentOffset.top));
                      
-                           
-                // CREATING POLIGON  строим полигон, если был выбран инструмент полигона
-                if(line_obj.hasClass('poligon')){   
                     // параметры полигона будем брать из настроек пользователя
-                     
-                //    console.log(Math.sqrt(Math.pow((mX-cX),2)+Math.pow((mY-cY),2))) 
-                line_obj.resizable();
-                    // рисуем полигон 
-                    var W = Math.sqrt(Math.pow((mX-cX),2)+Math.pow((mY-cY),2)); 
-                    
-                    line_obj.css('width', W);
-                    line_obj.css('height', 5);   
+                  
+                       // рисуем линию  с поворотом
+                       drawLineRotate(line_obj, mX, cX)  
 
-                    var B = Math.acos((mX-cX)/W);
-                   
-                    if(mY<cY) B=B*(-1);
-                    
-                    rotateIt(line_obj, B);
-                    
-                      
-                }
-              
+                       var new_obj = ($('<div class="ready_polygon_anymation"></div>')).html(line_obj);  
+                       $('#background').append(new_obj);
+                       
+                  
             }); 
+           
+        });
+        
+              $('#background').on('mouseup.poly', function(){  
+                                                       
+                if(line_obj.hasClass('line')){
+                     var new_obj = ($('<div class="ready_polygon"></div>')).html(line_obj);  
+                     $('#background').append(new_obj);
+                     $('#background').unbind('mousemove.poly');  
+                     $('.ready_polygon_anymation').remove(); 
+                }
+                
+                if(line_obj.hasClass('polygon')){                         
+                    var new_obj = ($('<div class="ready_polygon_anymation_2"></div>')).html(line_obj);
+                    $('#background').append(new_obj);
+                    poly_obj = poly_obj+line_obj.prop('outerHTML');
+                   
+               
+                    $('#background').mousemove(); 
+                     
+                }
+                
+                
+              })
+              
+              $('#background').on('dblclick.poly', function(){
 
+                     var new_obj = ($('<div class="ready_polygon"></div>')).html(poly_obj);  
+                 //    console.log(poly_obj)
+                     $('#background').append(new_obj);
+                     $('#background').unbind('mousemove.poly');  
+                     
+                      $('.ready_polygon_anymation_2').remove();
+                      $('.ready_polygon_anymation').remove(); 
+              });
+            
         }
         
     });  
@@ -105,7 +128,8 @@ function selected_tool(obj){
         deselect_tool(obj);
         cursor_auto();
         ubindActions();
-        $('.poligon').draggable({
+        
+        $('.ready_polygon').draggable({
             distance: 0,
             opacity: 0.5,
         });
@@ -127,8 +151,6 @@ function select_tool(obj){
 // снятие выделение всех инструментов
 function deselect_tool(obj){  
     $('#tools > div').removeClass('ui-selecting');
-    selected_id = 0;
-    resetLeyersZzindex();
 }
 
 // переводим курсор в крестик
@@ -141,63 +163,19 @@ function cursor_auto(){
     $('body').css('cursor', 'auto');
 }                                                                                                   
 
-function resetLeyersZzindex(){
-    $.each(layer, function(idd,v){
-           $('#'+idd).css('z-index', 0);
-           $('#'+idd).css('background', 'none');
-           $('#name'+idd).css('class','chLayer');  
-   });
-   
-}
-
 function ubindActions(){
-    $('#background').unbind('mousedown');
-    $('#background').unbind('mouseup');
+    $('#background').unbind('mousedown.poly');
+    $('#background').unbind('mouseup.poly');
+    $('#background').unbind('mousemove.poly'); 
 }
 
-
-function rotateit(obj) {
-
-  obj.find('.rotate_ico').css('display', 'block'); 
-  //obj.find('.resize_ico').css('display', 'block'); 
-  
-  obj.find('.rotate_ico').draggable({  
-            distance: 1,
-            containment: "parent",                                 
-            drag: function(e2){ 
-                    rotateOnMouse(e2, obj.find('.rotate_ico').parent());
-            }
-  }); 
-
-  obj.find('.rotate_ico').parent().resizable({
-       alsoResize: obj.find('.road_ico'),
-  });
-  
-}
-
-
-function rotateOnMouse(e, pw) {
-      var offset = pw.offset();
-      var center_x = (offset.left) + ($(pw).width() / 2);
-      var center_y = (offset.top) + ($(pw).height() / 2);
-      var mouse_x = e.pageX;
-      var mouse_y = e.pageY;
-      var radians = Math.atan2(mouse_x - center_x, mouse_y - center_y);
-      var degree = (radians * (180 / Math.PI) * -1) + 100;
-      //            window.console.log("de="+degree+","+radians);
-      $(pw).css('-moz-transform', 'rotate(' + degree + 'deg)');
-      $(pw).css('-webkit-transform', 'rotate(' + degree + 'deg)');
-      $(pw).css('-o-transform', 'rotate(' + degree + 'deg)');
-      $(pw).css('-ms-transform', 'rotate(' + degree + 'deg)');
-
-}
 
 function rotateIt(pw, radians){
+    
     var degree = (radians * (180 / Math.PI) );   
-  console.log('Before:'+degree);
-     if(degree<0) degree = 360+(degree);
+
     var origin = '0 0';
-console.log('After:'+degree);
+
      $(pw).css('transform', ' rotate(' + degree + 'deg)');   
      $(pw).css('transform-origin', origin);   
      $(pw).css('-moz-transform', ' rotate(' + degree + 'deg)');
@@ -208,4 +186,19 @@ console.log('After:'+degree);
      $(pw).css('-o-transform-origin', origin); 
      $(pw).css('-ms-transform', ' rotate(' + degree + 'deg)');
      $(pw).css('-ms-transform-origin', origin);
+}
+
+function drawLineRotate(line_obj, mX, cX){
+    // рисуем линию  с поворотом
+    var W = Math.sqrt(Math.pow((mX-cX),2)+Math.pow((mY-cY),2)); 
+                    
+    line_obj.css('width', W);
+    line_obj.css('height', 5);   
+
+    var B = Math.acos((mX-cX)/W);
+                   
+    if(mY<cY)
+        B=B*(-1);
+                    
+    rotateIt(line_obj, B);
 }

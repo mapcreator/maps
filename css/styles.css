@@ -133,7 +133,14 @@ input{border: 1px solid #ddd;}
     z-index: 2;
 }
 
-.poligon{
+.polygon{
+    width: 1px;
+    height: 1px;
+    background-color : #008080;
+    position: absolute;
+}
+
+.line{
     width: 1px;
     height: 1px;
     background-color : #000000;
