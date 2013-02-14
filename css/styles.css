@@ -138,6 +138,7 @@ input{border: 1px solid #ddd;}
     height: 1px;
     background-color : #008080;
     position: absolute;
+
 }
 
 .line{
@@ -145,4 +146,5 @@ input{border: 1px solid #ddd;}
     height: 1px;
     background-color : #000000;
     position: absolute;
+
 }
