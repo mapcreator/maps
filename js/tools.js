@@ -18,21 +18,21 @@ var cklick = 0;
 $(function(){
     
     $('.tool').click(function(e){
-                      
         tool = $(this); 
         
         selected_tool(tool);                         
                                  
-        if(tool.hasClass('ui-selecting')){  
-             i = 0;  
-             cX=0; cY=0; mX=0; mY=0; 
+        if(tool.hasClass('ui-selecting')){
+            workareaStopDraggable();  
+            i = 0;  
+            cX=0; cY=0; mX=0; mY=0; 
             // клик на бэкграунд после выбора инструмента    
-        $('#background').on('mousedown.poly', function(e){ 
+            $('#workarea').on('mousedown.poly', function(e){ 
              
                 // берем первые координаты
+                var parentOffset = $(this).offset();
                 posCX = e.pageX;
-                posCY = e.pageY;   
-                var parentOffset = $(this).parent().offset();
+                posCY = e.pageY;
 
                 // какой инструмент выбран
                 //if(tool.hasClass('line'))
@@ -54,55 +54,57 @@ $(function(){
             
             // CREATING LINE  строим полигон, если был выбран инструмент полигона 
             
-             $('#background').on('mousemove.poly', function(e){
-                 var parentOffset = $(this).parent().offset(); 
-                     
-                     cX = parseInt((posCX-parentOffset.left));
-                     cY = parseInt((posCY-parentOffset.top));
-                     mX = parseInt((e.pageX-parentOffset.left));
-                     mY = parseInt((e.pageY-parentOffset.top));
-                     
-                    // параметры полигона будем брать из настроек пользователя
-                  
-                       // рисуем линию  с поворотом
-                       drawLineRotate(line_obj, mX, cX)  
+             $('#workarea').on('mousemove.poly', function(e){
+                var parentOffset = $(this).parent().offset(); 
+                
+                cX = parseInt((posCX-parentOffset.left));
+                cY = parseInt((posCY-parentOffset.top));
+                mX = parseInt((e.pageX-parentOffset.left));
+                mY = parseInt((e.pageY-parentOffset.top));
 
-                       var new_obj = ($('<div class="ready_polygon_anymation"></div>')).html(line_obj);  
-                       $('#background').append(new_obj);
-                       
-                  
+                // параметры полигона будем брать из настроек пользователя
+
+                // рисуем линию  с поворотом
+                drawLineRotate(line_obj, mX, cX)  
+
+                var new_obj = ($('<div class="ready_polygon_anymation"></div>')).html(line_obj);  
+                $('#workarea').append(new_obj);
+
+
             }); 
            
         });
         
-              $('#background').on('mouseup.poly', function(){  
+            $('#workarea').on('mouseup.poly', function(){  
                                                        
                 if(line_obj.hasClass('line')){
-                     var new_obj = ($('<div class="ready_polygon"></div>')).html(line_obj);  
-                     $('#background').append(new_obj);
-                     $('#background').unbind('mousemove.poly');  
-                     $('.ready_polygon_anymation').remove(); 
+                    var new_obj = ($('<div class="ready_polygon"></div>')).html(line_obj);
+                     
+                    $('#workarea').append(new_obj);
+                    addSelectableHandler($(new_obj).find('.line'));
+                    $('#workarea').unbind('mousemove.poly');  
+                    $('.ready_polygon_anymation').remove(); 
                 }
                 
                 if(line_obj.hasClass('polygon')){                         
                     var new_obj = ($('<div class="ready_polygon_anymation_2"></div>')).html(line_obj);
-                    $('#background').append(new_obj);
+                    $('#workarea').append(new_obj);
                     poly_obj = poly_obj+line_obj.prop('outerHTML');
                    
                
-                    $('#background').mousemove(); 
+                    $('#workarea').mousemove(); 
                      
                 }
                 
                 
               })
               
-              $('#background').on('dblclick.poly', function(){
+              $('#workarea').on('dblclick.poly', function(){
 
                      var new_obj = ($('<div class="ready_polygon"></div>')).html(poly_obj);  
                  //    console.log(poly_obj)
-                     $('#background').append(new_obj);
-                     $('#background').unbind('mousemove.poly');  
+                     $('#workarea').append(new_obj);
+                     $('#workarea').unbind('mousemove.poly');  
                      
                       $('.ready_polygon_anymation_2').remove();
                       $('.ready_polygon_anymation').remove(); 
@@ -164,9 +166,10 @@ function cursor_auto(){
 }                                                                                                   
 
 function ubindActions(){
-    $('#background').unbind('mousedown.poly');
-    $('#background').unbind('mouseup.poly');
-    $('#background').unbind('mousemove.poly'); 
+    $('#workarea').unbind('mousedown.poly');
+    $('#workarea').unbind('mouseup.poly');
+    $('#workarea').unbind('mousemove.poly'); 
+    workareaStartDraggable();
 }
 
 

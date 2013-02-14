@@ -7,12 +7,16 @@ include 'views/header.php';
 
 </div><!-- end of menu -->
 
+<div id="workarea">
+    <div id="background"></div>
+</div> 
+
 <!-- main container -->
 <div id="container" class="row">
 
     <!-- LEFT TOOL BAR -->
     <div id="left_tools" class="col">
-        <div id="accordion">
+        <div id="accordion_left">
             <div class="group">
                 <h3>Section 1</h3>
                 <div>
@@ -50,10 +54,9 @@ include 'views/header.php';
     </div>
     <!-- END LEFT TOOL BAR -->
     
-    <!-- WORKFLOW -->    
-    <div id="workarea" class="col">
-        <div id="background"></div>
-    </div> 
+    <!-- WORKFLOW -->  
+    <div id="center" class="col">
+    </div>
     <!-- END OF WORKFLOW -->
     
     
@@ -69,7 +72,7 @@ include 'views/header.php';
     
     <!-- RIGHT TOOL BAR -->    
     <div id="right_tools" class="col">
-         <div id="accordion_tools">
+         <div id="accordion_right">
             <div class="group">
                 <h3>Curves</h3>
                 <div id="curves">

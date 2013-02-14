@@ -1,14 +1,32 @@
 var new_id = 1;
-
+var shift_offset = 10;
 
 $(function() {
     resizeBackground();
     
     $( "body" ).bind('keydown', function(e){
         e = (e) ? e : window.event;
+        //alert(e.keyCode);
         if (e.keyCode){
+            var arrows_move_offset = e.shiftKey !== false ? shift_offset : 1;
             if (e.keyCode=='46'){
-                $('.ui-selecting').remove();
+                $('#workarea .ui-selecting').remove();
+            } else if (e.keyCode=='37'){
+                $('.ui-selecting').each(function(){
+                    $(this).css('left', parseInt($(this).css('left'))-arrows_move_offset);
+                });
+            } else if (e.keyCode=='38'){
+                $('.ui-selecting').each(function(){
+                    $(this).css('top', parseInt($(this).css('top'))-arrows_move_offset);
+                });
+            } else if (e.keyCode=='39'){
+                $('.ui-selecting').each(function(){
+                    $(this).css('left', parseInt($(this).css('left'))+arrows_move_offset);
+                });
+            } else if (e.keyCode=='40'){
+                $('.ui-selecting').each(function(){
+                    $(this).css('top', parseInt($(this).css('top'))+arrows_move_offset);
+                });
             } else if (e.keyCode=='65'){
                 if (e.ctrlKey !== false) {
                     $("#background").click();
@@ -35,11 +53,56 @@ $(function() {
             }
         },
     });
+    
+    resizeBlocks();
+    $(window).bind("resize", function(){
+        resizeBlocks();
+        reloadAccordions();
+    });
+    
+    workareaStartDraggable();
+    workareaStartPlace();
 });
 
-$(function() {
-    
-    $( "#accordion" ).accordion({
+function workareaStartDraggable(){
+    var draggable_workarea = {
+        distance: 10,
+        opacity: 0.5,
+        start: function(e, ui){
+            //$('.ui-draggable-dragging').draggable(draggable_originalicon);
+            
+        },
+    };
+    $( "#workarea" ).draggable(draggable_workarea);
+}
+
+function workareaStopDraggable(){
+    $( "#workarea" ).draggable("destroy");
+}
+
+function workareaStartPlace(){
+    var offset = $("#center").offset();
+    $( "#workarea" ).css("left", offset.left);
+    $( "#workarea" ).css("top", offset.top);
+}
+
+function resizeBlocks(){
+    $('#container').css('width', $(window).width());
+    $('#center').css('width', $(window).width()-parseInt($('#right_tools').width())-parseInt($('#left_tools').width())-parseInt($('#left_tools').css('border-left-width'))-parseInt($('#left_tools').css('border-right-width'))-parseInt($('#right_tools').css('border-left-width'))-parseInt($('#right_tools').css('border-right-width'))-parseInt($('#center').css('border-left-width'))-parseInt($('#left_tools').css('border-right-width')));
+    $('#right_tools').css('height', $(window).height()-parseInt($('#right_tools').css('border-top-width'))-parseInt($('#right_tools').css('border-bottom-width')));
+    $('#center').css('height', $(window).height()-parseInt($('#center').css('border-top-width'))-parseInt($('#center').css('border-bottom-width')));
+    $('#left_tools').css('height', $(window).height()-parseInt($('#left_tools').css('border-top-width'))-parseInt($('#left_tools').css('border-bottom-width')));
+}
+
+function reloadAccordions(){
+    accordionLeftDestroy();
+    accordionLeftStart();
+    accordionRightDestroy();
+    accordionRightStart();
+}
+
+function accordionLeftStart(){
+    $( "#accordion_left" ).accordion({
         header: "> div > h3",
         heightStyle: "fill"
     })
@@ -53,12 +116,14 @@ $(function() {
             ui.item.children( "h3" ).triggerHandler( "focusout" );
         }
     });
-    
-});
+}
 
-$(function() {
-    
-    $( "#accordion_tools" ).accordion({
+function accordionLeftDestroy(){
+    $( "#accordion_left" ).accordion('destroy');
+}
+
+function accordionRightStart(){
+    $( "#accordion_right" ).accordion({
         header: "> div > h3",
         heightStyle: "fill"
     })
@@ -72,10 +137,21 @@ $(function() {
             ui.item.children( "h3" ).triggerHandler( "focusout" );
         }
     });
-    
+}
+
+function accordionRightDestroy(){
+    $( "#accordion_right" ).accordion('destroy');
+}
+
+$(function() {
+    accordionLeftStart();
 });
 
-// используем этот метод для  ресайза фона рабочей области
+$(function() {
+    accordionRightStart();
+});
+
+// используем этот метод для ресайза фона рабочей области
 function resizeBackground(){
     $('#background').css('width', $('#workarea').width());
     $('#background').css('height', $('#workarea').height());

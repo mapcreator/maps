@@ -1,6 +1,6 @@
 /* General */ 
 *{margin:0; padding:0;}
-body, html, head {height:100%; width:100%; font-family:Verdana; font-size:11px; color:#999;}
+body, html, head {height:100%; width:100%; font-family:Verdana; font-size:11px; color:#999; overflow: hidden;}
 body {background:#fff repeat-x top center;}
 a img, img {border:0;}
 a {outline:none; color:#0051a9; cursor: pointer;}
@@ -11,6 +11,7 @@ input{border: 1px solid #ddd;}
 
 .row{
     float: left;
+    width: 100%;
 }
 .col{
     float: left;
@@ -19,9 +20,23 @@ input{border: 1px solid #ddd;}
 }
 #left_tools{
     width: 300px;
+    position: relative;
+    background-color: #FFF;
+    z-index: 10000;
+}
+#center{
+    overflow: hidden;
+    width: 600px;
+    height: 400px;
+    z-index: 10000;
+    border: 0px;
 }
 #right_tools{
     width: 300px;
+    float: right;
+    position: relative;
+    background-color: #FFF;
+    z-index: 10000;
 }
 
 .pattern{
@@ -39,18 +54,24 @@ input{border: 1px solid #ddd;}
     text-align: center;
 }
 #accordion{
-    height: 400px;
+    
 }
 .drop-hover{
-    border: 1px solid #000;
+    /*border: 1px solid #000;*/
 }
 .selected{
     border: 1px solid #FF0000;
 }
 #workarea{
-    width: 600px;             
-    /*border: 1px solid #999;*/
-    background: #f600f6;
+    width: 400px;
+    height: 300px;
+    border: 1px solid #999;
+    overflow: hidden;
+    position: absolute;
+}
+#background{
+    background: #fff;
+    position: absolute;
 }
 
 
@@ -66,14 +87,14 @@ input{border: 1px solid #ddd;}
 #selecteble_draw li { margin: 3px; padding: 0.4em; font-size: 1.4em;  width: 50px; height: 50px; }
 */
 .ui-selecting {
+    /*background: #ff0000 !important;*/
+    filter:alpha(opacity=30);
+    opacity: 0.3;
     background: #ff0000;
 }
 .ui-selected {
     background: #ff0000;
-}
-#background{
-    background: #f6f6f6;
-    position: absolute;     
+    
 }
 #layerbackground{
     background: #f6f6f6;
