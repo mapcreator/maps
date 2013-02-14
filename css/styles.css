@@ -132,14 +132,23 @@ input{border: 1px solid #ddd;}
     position: static;
     width: 98%;
 }
-.rotate_ico{
+.rotate_elem{
     background: yellow;
     border: 1px solid; 
-    width: 7px;
-    height: 7px;
+    width: 5px;
+    height: 5px;
+    display: none;
+}
+
+.rleft{
     margin-left: auto;
+}
+
+.rright{
     margin-right: auto;
 }
+
+
 .resize_ico{
     background: url('../icons/resize.png');
     border: 1px solid; 
