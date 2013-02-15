@@ -32,6 +32,7 @@ include 'views/header.php';
                    <div class="lefticon originalicon tool line_ico">Line</div>
                    <div class="lefticon originalicon tool polygon_ico">Poligon</div>
                    <div class="lefticon originalicon tool rotate_ico">Rotate</div>
+                   <div class="lefticon originalicon tool select_ico">Select</div>
                 </div>
             </div>
             <div class="group">

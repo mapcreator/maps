@@ -11,30 +11,37 @@ $(function() {
             var arrows_move_offset = e.shiftKey !== false ? shift_offset : 1;
             if (e.keyCode=='46'){
                 $('#workarea .ui-selecting').remove();
+                return false;
             } else if (e.keyCode=='37'){
                 $('.ui-selecting').each(function(){
                     $(this).css('left', parseInt($(this).css('left'))-arrows_move_offset);
                 });
+                return false;
             } else if (e.keyCode=='38'){
                 $('.ui-selecting').each(function(){
                     $(this).css('top', parseInt($(this).css('top'))-arrows_move_offset);
                 });
+                return false;
             } else if (e.keyCode=='39'){
                 $('.ui-selecting').each(function(){
                     $(this).css('left', parseInt($(this).css('left'))+arrows_move_offset);
                 });
+                return false;
             } else if (e.keyCode=='40'){
                 $('.ui-selecting').each(function(){
                     $(this).css('top', parseInt($(this).css('top'))+arrows_move_offset);
                 });
+                return false;
             } else if (e.keyCode=='65'){
                 if (e.ctrlKey !== false) {
                     $("#background").click();
                     $("#workarea > div").addClass("ui-selecting");
                     $("#background").removeClass("ui-selecting");
-                    return false;
+                    
                 }
+                return false;
             }
+            
         }
     });
     
@@ -62,6 +69,8 @@ $(function() {
     
     workareaStartDraggable();
     workareaStartPlace();
+    $('body').disableSelection();
+    
 });
 
 function workareaStartDraggable(){
@@ -165,4 +174,8 @@ function setNewId(el){
     }else{
         return false;
     }
+}
+
+function getAllElements(){
+    return $("#workarea div:not(#background)");
 }
