@@ -217,7 +217,7 @@ function selectElementsByArea(){
     //console.log(elements);
     for (var i=ids.length-1; i>=0; i--){
         var el = $('#'+ids[i]);
-        var line_offsets = getRealLineOffsets(el);
+        var line_offsets = getRealObjectOffsets(el);
         if (line_offsets){ // если наш объект - линия, то сюда запишутся смещения
             var el_left = line_offsets.left;
             var el_top = line_offsets.top;
@@ -239,44 +239,54 @@ function selectElementsByArea(){
     }
 }
 
-function getRealLineCoords(el){
-    if ($(el).hasClass('line')){
+function getRealObjectCoords(el){
+    var coords = new Array;
+    if ($(el).hasClass('line')){ // Если объект - линия
         var degree = getRotationDegrees($(el));
         var el_height = parseFloat($(el).css('height'));
         var el_width = parseFloat($(el).css('width'));
         var radians = degree/(180 / Math.PI);
         var sinus = Math.sin(radians);
         var cosinus = Math.cos(radians);
-        var coords = new Array;
+        var offsetX = parseFloat($(el).parent().css('left'));
+        offsetX = isNaN(offsetX) ? 0 : offsetX;
+        var offsetY = parseFloat($(el).parent().css('top'));
+        offsetY = isNaN(offsetY) ? 0 : offsetY;
+        coords[0] = [parseFloat($(el).css('left')) + offsetX, parseFloat($(el).css('top')) + offsetY]; // 1X, 1Y
         if (degree<=-90){
-            coords[0] = [parseInt($(el).css('left')), parseInt($(el).css('top'))]; // 1X, 1Y
             coords[1] = [coords[0][0] + Math.abs( el_height * sinus), coords[0][1] - Math.abs( el_height * cosinus)]; // 2X, 2Y
             coords[2] = [coords[0][0] - Math.abs( el_width * cosinus), coords[0][1] - Math.abs( el_width * sinus)]; // 3X, 3Y
             coords[3] = [coords[2][0] + Math.abs( el_height * sinus), coords[2][1] - Math.abs( el_height * cosinus)]; // 4X, 4Y
         }else if(degree>-90 && degree<0){
-            coords[0] = [parseInt($(el).css('left')), parseInt($(el).css('top'))]; // 1X, 1Y
             coords[1] = [coords[0][0] + Math.abs( el_height * sinus), coords[0][1] + Math.abs( el_height * cosinus)]; // 2X, 2Y
             coords[2] = [coords[0][0] + Math.abs( el_width * cosinus), coords[0][1] - Math.abs( el_width * sinus)]; // 3X, 3Y
             coords[3] = [coords[2][0] + Math.abs( el_height * sinus), coords[2][1] + Math.abs( el_height * cosinus)]; // 4X, 4Y
         }else if(degree>90){
-            coords[0] = [parseInt($(el).css('left')), parseInt($(el).css('top'))]; // 1X, 1Y
             coords[1] = [coords[0][0] + Math.abs( el_height * sinus), coords[0][1] - Math.abs( el_height * cosinus)]; // 2X, 2Y
             coords[2] = [coords[0][0] - Math.abs( el_width * cosinus), coords[0][1] + Math.abs( el_width * sinus)]; // 3X, 3Y
             coords[3] = [coords[2][0] + Math.abs( el_height * sinus), coords[2][1] - Math.abs( el_height * cosinus)]; // 4X, 4Y
         }else{
-            coords[0] = [parseInt($(el).css('left')), parseInt($(el).css('top'))]; // 1X, 1Y
             coords[1] = [coords[0][0] - Math.abs( el_height * sinus), coords[0][1] + Math.abs( el_height * cosinus)]; // 2X, 2Y
             coords[2] = [coords[0][0] + Math.abs( el_width * cosinus), coords[0][1] + Math.abs( el_width * sinus)]; // 3X, 3Y
             coords[3] = [coords[2][0] - Math.abs( el_height * sinus), coords[2][1] + Math.abs( el_height * cosinus)]; // 4X, 4Y
         }
         return coords;
-    }else{
-        return false;
+    }else{ // Если объект - иконка
+        var el_left = parseFloat($(el).css('left'));
+        var el_top = parseFloat($(el).css('top'));
+        var el_height = parseFloat($(el).css('height'));
+        var el_width = parseFloat($(el).css('width'));
+        coords[0] = [el_left, el_top];
+        coords[1] = [el_left, el_top+el_height];
+        coords[2] = [el_left+el_width, el_top];
+        coords[3] = [el_left+el_width, el_top+el_height];
+        return coords;
     }
 }
 
-function getRealLineOffsets(el){
-    var coords = getRealLineCoords(el);
+// Этот метод можно представить, как нахождение координат прямоугольника, описанного вокруг данного объекта
+function getRealObjectOffsets(el){
+    var coords = getRealObjectCoords(el);
     if (coords){
         var offsets = new Array;
         offsets.left = Math.min(coords[0][0], coords[1][0], coords[2][0], coords[3][0]);

@@ -18,75 +18,60 @@
         
         start: function(e, ui) {
             // координаты верхнего левого и нижнего правого углов рабочей области:
-            bg_left = parseInt($("#background").css('left'));
-            bg_top = parseInt($("#background").css('top'));
-            bg_right = bg_left + parseInt($("#background").css('width'));
-            bg_bottom = bg_top + parseInt($("#background").css('height'));
+            bg_left = parseFloat($("#background").css('left'));
+            bg_top = parseFloat($("#background").css('top'));
+            bg_right = bg_left + parseFloat($("#background").css('width'));
+            bg_bottom = bg_top + parseFloat($("#background").css('height'));
             // запоминаем начальные координаты элемента, за который цепляемся:
-            posX = parseInt(ui.helper.css('left'));
-            posY = parseInt(ui.helper.css('top'));
+            var object_offsets = getRealObjectOffsets(ui.helper);
+            //console.log(object_offsets);
+            posL = parseFloat(object_offsets.left); // left
+            posT = parseFloat(object_offsets.top); // top
+            posR = parseFloat(object_offsets.right); // right
+            posB = parseFloat(object_offsets.bottom); // bottom
+            //alert(posX+'; '+posY);
             getAll(ui).each(function(){
-                // запоминаем начальные координаты всех элементов:
-                var currLeft = parseInt($(this).css("left"));
-                var currTop = parseInt($(this).css("top"));
-                var currWidth = parseInt($(this).css("width"));
-                var currHeight = parseInt($(this).css("height"));
-                eval('pos_'+$(this).attr('id')+'_X = currLeft;');
-                eval('pos_'+$(this).attr('id')+'_Y = currTop;');
+                // запоминаем начальные координаты каждого выделенного элемента:
+                var object_offsets = getRealObjectOffsets(this);
+                console.log(object_offsets);
+                //console.log($(this).attr('class'));
+                eval('pos_'+$(this).attr('id')+'_X = parseFloat($(this).css("left"));');
+                eval('pos_'+$(this).attr('id')+'_Y = parseFloat($(this).css("top"));');
                 // рассчитываем координаты новой области, в которой могут двигаться элементы
-                if (posX > currLeft) bg_left = bg_left + posX - currLeft;
+                if (posL > object_offsets.left) bg_left = bg_left + posL - object_offsets.left;
+                if (posR < object_offsets.right) bg_right = bg_right + posR - object_offsets.right;
+                if (posT > object_offsets.top) bg_top = bg_top + posT - object_offsets.top;
+                if (posB < object_offsets.bottom) bg_bottom = bg_bottom + posB - object_offsets.bottom;
                 
-                if (posY > currTop) bg_top = bg_top + posY - currTop;
-                
-                if (posX < currLeft) bg_right = bg_right + posX - currLeft;
-                else bg_right = bg_right + posX - currLeft - currWidth;
-                
-                if (posY < currTop) bg_bottom = bg_bottom + posY - currTop;
-                else bg_bottom = bg_bottom + posY - currTop - currHeight;
-                
-                //$(this).text('Y='+posY+'; '+'X='+posX);
-                //$(this).text('bg_top='+bg_top+'; '+'bg_left='+bg_left+'; '+'bg_bottom='+bg_bottom+'; '+'bg_right='+bg_right+'; ');
+                //$('#background').text('posL='+posL+'; '+'posT='+posT+'; '+'posR='+posR+'; '+'posB='+posB+'; ');
+                //$('#background').text('bg_top='+bg_top+'; '+'bg_left='+bg_left+'; '+'bg_bottom='+bg_bottom+'; '+'bg_right='+bg_right+'; ');
             });
         },
         stop: function(e, ui) {
             
         },
         drag: function(e, ui) {
-            var newY = parseInt(ui.helper.css('top'));
-            if (newY >= bg_top && newY <= bg_bottom){
+            var object_offsets = getRealObjectOffsets(ui.helper);
+            if (object_offsets.top >= bg_top && object_offsets.bottom <= bg_bottom){
                 // определяем смещение элемента, за который цепляемся, относительно исходной позиции:
-                offsetY = newY-posY;
+                offsetY = object_offsets.top-posT;
                 getAll(ui).each(function(){
-                    eval('var startY = pos_'+$(this).attr('id')+'_Y;');
                     // высчитываем новую позицию для каждого элемента:
-                    var currTop = parseInt(offsetY)+startY;
+                    eval('var newTop = pos_'+$(this).attr('id')+'_Y + offsetY;');
                     // задаем новую позицию:
-                    $(this).css("top", currTop+'px');
+                    $(this).css("top", newTop);
                 });
-            } else if (newY < bg_top){
-                ui.helper.css('top', bg_top);
-            } else {
-                ui.helper.css('top', bg_bottom);
             }
-            var newX = parseInt(ui.helper.css('left'));
-            if (newX >= bg_left && newX <= bg_right){
+            if (object_offsets.left >= bg_left && object_offsets.right <= bg_right){
                 // определяем смещение элемента, за который цепляемся, относительно исходной позиции:
-                offsetX = newX-posX;
+                offsetX = object_offsets.left-posL;
                 getAll(ui).each(function(){
-                    eval('var startX = pos_'+$(this).attr('id')+'_X;');
                     // высчитываем новую позицию для каждого элемента:
-                    var currLeft = parseInt(offsetX)+startX;
+                    eval('var newLeft = pos_'+$(this).attr('id')+'_X + offsetX;');
                     // задаем новую позицию:
-                    $(this).css("left", currLeft+'px');
-                    
-                    
+                    $(this).css("left", newLeft);
                 });
-            } else if (newX < bg_left){
-                ui.helper.css('left', bg_left);
-            } else {
-                ui.helper.css('left', bg_right);
             }
-            
         }
     };
     
@@ -95,7 +80,6 @@ $(function() {
     
     addSelectableHandler($('#background'));
 });
-
 
 // Функция, осуществляющая выделение объектов в рабочей области
 function addSelectableHandler(element){
