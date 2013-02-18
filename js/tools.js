@@ -21,6 +21,10 @@ var select_obj_top;
 var select_obj_right;
 var select_obj_bottom;
 
+var draggable_line = draggable_cloned;
+draggable_line.containment = false;
+draggable_line.stack = false;
+
 $(function(){
     
     $('.tool').click(function(e){
@@ -323,10 +327,7 @@ function selected_tool(obj){
     if(obj.hasClass('ui-selecting')){
         deselect_tool(obj);
         cursor_auto();
-        $('.ready_polygon').draggable({
-            distance: 5,
-            opacity: 0.5,
-        });
+        $('.ready_polygon').draggable(draggable_line);
     }else{
         select_tool(obj);
         cursor_cross();
