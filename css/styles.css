@@ -94,16 +94,6 @@ input{border: 1px solid #ddd;}
     border: 1px solid #666;
     position: absolute;
 }
-.ui-selecting {
-    /*background: #ff0000 !important;*/
-    filter:alpha(opacity=30);
-    opacity: 0.3;
-    background: #ff0000;
-}
-.ui-selected {
-    background: #ff0000;
-    
-}
 #layerbackground{
     background: #f6f6f6;
     position: absolute;
@@ -185,4 +175,17 @@ input{border: 1px solid #ddd;}
     background-color : #000000;
     position: absolute;
 
+}
+
+
+
+.ui-selecting {
+    /*
+    filter:alpha(opacity=30);
+    opacity: 0.3;
+    */
+    background: #ff0000;
+}
+.ui-selected {
+    background: #ff0000;
 }

@@ -77,7 +77,8 @@ $(function(){
                         line_obj = setRotators(line_obj);
                         var new_obj = ($('<div class="ready_polygon"></div>')).html(line_obj);
                         $('#workarea').append(new_obj);
-                        addSelectableHandler($(new_obj).find('.line'));
+                        var line_id = setNewId($(new_obj).find('.line'));
+                        addSelectableHandler($('#'+line_id));
                         $('#workarea').unbind('mousemove.poly');  
                         $('.ready_polygon_anymation').remove(); 
                     }
@@ -103,74 +104,72 @@ $(function(){
                 cursor_auto();
                 bindSelectingStart();
             }
-        }
         
-        // ROTATE LINE ******************************************************
-        if(tool.hasClass('rotate_ico')){
-              
-              $('.ready_polygon').on('click.rotate', function(){
-                  showRotators($(this));
-                  var lrot = $(this).find('.rleft');
-                  var rrot = $(this).find('.rright');
+            // ROTATE LINE ******************************************************
+            if(tool.hasClass('rotate_ico')){
                   
-                  $(lrot).add(rrot).draggable({ 
-                        cursorAt: { left: 5 },
-                        start: function(e){
-                            console.log($(e.target).attr('class'))
-                         // берем первые координаты
-                            var parentOffset = $('#workarea').offset();
-                            
-                            if($(e.target).hasClass('rleft')){
-                                posCX = (rrot.offset()).left;
-                                posCY = (rrot.offset()).top;
-                            }
-                            
-                            if($(e.target).hasClass('rright')){
-                                posCX = (lrot.offset()).left;
-                                posCY = (lrot.offset()).top;
-                            }
-                            
-                            //Создаем объект линии 
-                            line_obj = $('<div>', {      
-                                            class: 'line',
-                                        }).css('left',(posCX-parentOffset.left)+'px').css('top', (posCY-parentOffset.top)+'px');
-                                            
-                                                                                                                                                                        
-                        },
-                        drag: function(e){
-                             var parentOffset = $('#workarea').offset(); 
-                             
-                             cX = parseInt((posCX-parentOffset.left));
-                             cY = parseInt((posCY-parentOffset.top));
-                             mX = parseInt((e.pageX-parentOffset.left));
-                             mY = parseInt((e.pageY-parentOffset.top));
-                             
-                            // параметры полигона будем брать из настроек пользователя
-                          
-                               // рисуем линию  с поворотом
-                               drawLineRotate(line_obj, mX, cX)  
-
-                               var new_obj = ($('<div class="ready_polygon_anymation"></div>')).html(line_obj);  
-                               $('#workarea').append(new_obj);
-                        }, 
-                        stop: function(e){
-                                line_obj = setRotators(line_obj);
-                                var new_obj = ($('<div class="ready_polygon"></div>')).html(line_obj);
-                                 
-                                $('#workarea').append(new_obj);
-                                addSelectableHandler($(new_obj).find('.line'));
-                                $('#workarea').unbind('mousemove.poly');  
-                                $('.ready_polygon_anymation').remove(); 
-                                $(e.target).parent().parent().remove();
+                  $('.ready_polygon').on('click.rotate', function(){
+                      showRotators($(this));
+                      var lrot = $(this).find('.rleft');
+                      var rrot = $(this).find('.rright');
+                      
+                      $(lrot).add(rrot).draggable({ 
+                            cursorAt: { left: 5 },
+                            start: function(e){
+                                console.log($(e.target).attr('class'))
+                             // берем первые координаты
+                                var parentOffset = $('#workarea').offset();
                                 
-                        }      
+                                if($(e.target).hasClass('rleft')){
+                                    posCX = (rrot.offset()).left;
+                                    posCY = (rrot.offset()).top;
+                                }
+                                
+                                if($(e.target).hasClass('rright')){
+                                    posCX = (lrot.offset()).left;
+                                    posCY = (lrot.offset()).top;
+                                }
+                                
+                                //Создаем объект линии 
+                                line_obj = $('<div>', {      
+                                                class: 'line',
+                                            }).css('left',(posCX-parentOffset.left)+'px').css('top', (posCY-parentOffset.top)+'px');
+                                                
+                                                                                                                                                                            
+                            },
+                            drag: function(e){
+                                 var parentOffset = $('#workarea').offset(); 
+                                 
+                                 cX = parseInt((posCX-parentOffset.left));
+                                 cY = parseInt((posCY-parentOffset.top));
+                                 mX = parseInt((e.pageX-parentOffset.left));
+                                 mY = parseInt((e.pageY-parentOffset.top));
+                                 
+                                // параметры полигона будем брать из настроек пользователя
+                              
+                                   // рисуем линию  с поворотом
+                                   drawLineRotate(line_obj, mX, cX)  
+
+                                   var new_obj = ($('<div class="ready_polygon_anymation"></div>')).html(line_obj);  
+                                   $('#workarea').append(new_obj);
+                            }, 
+                            stop: function(e){
+                                    line_obj = setRotators(line_obj);
+                                    var new_obj = ($('<div class="ready_polygon"></div>')).html(line_obj);
+                                     
+                                    $('#workarea').append(new_obj);
+                                    addSelectableHandler($(new_obj).find('.line'));
+                                    $('#workarea').unbind('mousemove.poly');  
+                                    $('.ready_polygon_anymation').remove(); 
+                                    $(e.target).parent().parent().remove();
+                                    
+                            }      
+                      })
                   })
-                    
-              })
-              
+            }
         }
-        
     });  
+    
 })
 
 // функция для выделения элементов с помощью мыши
@@ -191,6 +190,7 @@ function bindSelectingStart(){
             $('#workarea').unbind('mousemove.selectobj');
             $('body').unbind('mouseup.selectobj');
             $(select_obj).remove();
+            $('.ui-selecting').click();
         });
     });
 }
@@ -213,24 +213,96 @@ function drawSelectingArea(startX, startY){
 }
 
 function selectElementsByArea(){
-    var elements = getAllElements();
+    var ids = getAllElements();
     //console.log(elements);
-    $(elements).each(function(e){
-        var el_left = parseInt($(this).css('left'));
-        var el_top = parseInt($(this).css('top'));
-        var el_right = el_left + parseInt($(this).css('width'));
-        var el_bottom = el_top + parseInt($(this).css('height'));
+    for (var i=ids.length-1; i>=0; i--){
+        var el = $('#'+ids[i]);
+        var line_offsets = getRealLineOffsets(el);
+        if (line_offsets){ // если наш объект - линия, то сюда запишутся смещения
+            var el_left = line_offsets.left;
+            var el_top = line_offsets.top;
+            var el_right = line_offsets.right;
+            var el_bottom = line_offsets.bottom;
+        }else{ // иначе - иконка
+            var el_left = parseInt($(el).css('left'));
+            var el_top = parseInt($(el).css('top'));
+            var el_right = el_left + parseInt($(el).css('width'));
+            var el_bottom = el_top + parseInt($(el).css('height'));
+        }
         //$(".selectobj").text("Element: el_left="+el_left+"; el_top="+el_top+"; el_right="+el_right+"; el_bottom="+el_bottom+"; ");
         if(el_left>select_obj_left && el_top>select_obj_top && el_right<select_obj_right && el_bottom<select_obj_bottom){
             //$(".selectobj").text($(this).attr('id'));
-            $(this).addClass("ui-selecting");
+            $(el).addClass("ui-selecting");
         }else{
-            $(this).removeClass("ui-selecting");
+            $(el).removeClass("ui-selecting");
         }
-    });
+    }
 }
 
+function getRealLineCoords(el){
+    if ($(el).hasClass('line')){
+        var degree = getRotationDegrees($(el));
+        var el_height = parseFloat($(el).css('height'));
+        var el_width = parseFloat($(el).css('width'));
+        var radians = degree/(180 / Math.PI);
+        var sinus = Math.sin(radians);
+        var cosinus = Math.cos(radians);
+        var coords = new Array;
+        if (degree<=-90){
+            coords[0] = [parseInt($(el).css('left')), parseInt($(el).css('top'))]; // 1X, 1Y
+            coords[1] = [coords[0][0] + Math.abs( el_height * sinus), coords[0][1] - Math.abs( el_height * cosinus)]; // 2X, 2Y
+            coords[2] = [coords[0][0] - Math.abs( el_width * cosinus), coords[0][1] - Math.abs( el_width * sinus)]; // 3X, 3Y
+            coords[3] = [coords[2][0] + Math.abs( el_height * sinus), coords[2][1] - Math.abs( el_height * cosinus)]; // 4X, 4Y
+        }else if(degree>-90 && degree<0){
+            coords[0] = [parseInt($(el).css('left')), parseInt($(el).css('top'))]; // 1X, 1Y
+            coords[1] = [coords[0][0] + Math.abs( el_height * sinus), coords[0][1] + Math.abs( el_height * cosinus)]; // 2X, 2Y
+            coords[2] = [coords[0][0] + Math.abs( el_width * cosinus), coords[0][1] - Math.abs( el_width * sinus)]; // 3X, 3Y
+            coords[3] = [coords[2][0] + Math.abs( el_height * sinus), coords[2][1] + Math.abs( el_height * cosinus)]; // 4X, 4Y
+        }else if(degree>90){
+            coords[0] = [parseInt($(el).css('left')), parseInt($(el).css('top'))]; // 1X, 1Y
+            coords[1] = [coords[0][0] + Math.abs( el_height * sinus), coords[0][1] - Math.abs( el_height * cosinus)]; // 2X, 2Y
+            coords[2] = [coords[0][0] - Math.abs( el_width * cosinus), coords[0][1] + Math.abs( el_width * sinus)]; // 3X, 3Y
+            coords[3] = [coords[2][0] + Math.abs( el_height * sinus), coords[2][1] - Math.abs( el_height * cosinus)]; // 4X, 4Y
+        }else{
+            coords[0] = [parseInt($(el).css('left')), parseInt($(el).css('top'))]; // 1X, 1Y
+            coords[1] = [coords[0][0] - Math.abs( el_height * sinus), coords[0][1] + Math.abs( el_height * cosinus)]; // 2X, 2Y
+            coords[2] = [coords[0][0] + Math.abs( el_width * cosinus), coords[0][1] + Math.abs( el_width * sinus)]; // 3X, 3Y
+            coords[3] = [coords[2][0] - Math.abs( el_height * sinus), coords[2][1] + Math.abs( el_height * cosinus)]; // 4X, 4Y
+        }
+        return coords;
+    }else{
+        return false;
+    }
+}
 
+function getRealLineOffsets(el){
+    var coords = getRealLineCoords(el);
+    if (coords){
+        var offsets = new Array;
+        offsets.left = Math.min(coords[0][0], coords[1][0], coords[2][0], coords[3][0]);
+        offsets.right = Math.max(coords[0][0], coords[1][0], coords[2][0], coords[3][0]);
+        offsets.top = Math.min(coords[0][1], coords[1][1], coords[2][1], coords[3][1]);
+        offsets.bottom = Math.max(coords[0][1], coords[1][1], coords[2][1], coords[3][1]);
+        return offsets;
+    }else{
+        return false;
+    }
+}
+
+function getRotationDegrees(obj) {
+    var matrix = obj.css("-webkit-transform") ||
+    obj.css("-moz-transform")    ||
+    obj.css("-ms-transform")     ||
+    obj.css("-o-transform")      ||
+    obj.css("transform");
+    if(matrix !== 'none') {
+        var values = matrix.split('(')[1].split(')')[0].split(',');
+        var a = values[0];
+        var b = values[1];
+        var angle = Math.atan2(b, a) * (180/Math.PI);
+    } else { var angle = 0; }
+    return angle;
+}
 
 /// HELPER FUNCTIONS
 
@@ -242,7 +314,7 @@ function selected_tool(obj){
         deselect_tool(obj);
         cursor_auto();
         $('.ready_polygon').draggable({
-            distance: 0,
+            distance: 5,
             opacity: 0.5,
         });
     }else{

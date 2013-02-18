@@ -9,33 +9,34 @@ $(function() {
         //alert(e.keyCode);
         if (e.keyCode){
             var arrows_move_offset = e.shiftKey !== false ? shift_offset : 1;
-            if (e.keyCode=='46'){
+            if (e.keyCode=='46'){ // Del
                 $('#workarea .ui-selecting').remove();
                 return false;
-            } else if (e.keyCode=='37'){
+            } else if (e.keyCode=='37'){ // Left
                 $('.ui-selecting').each(function(){
                     $(this).css('left', parseInt($(this).css('left'))-arrows_move_offset);
                 });
                 return false;
-            } else if (e.keyCode=='38'){
+            } else if (e.keyCode=='38'){ // Up
                 $('.ui-selecting').each(function(){
                     $(this).css('top', parseInt($(this).css('top'))-arrows_move_offset);
                 });
                 return false;
-            } else if (e.keyCode=='39'){
+            } else if (e.keyCode=='39'){ // Right
                 $('.ui-selecting').each(function(){
                     $(this).css('left', parseInt($(this).css('left'))+arrows_move_offset);
                 });
                 return false;
-            } else if (e.keyCode=='40'){
+            } else if (e.keyCode=='40'){ // Down
                 $('.ui-selecting').each(function(){
                     $(this).css('top', parseInt($(this).css('top'))+arrows_move_offset);
                 });
                 return false;
-            } else if (e.keyCode=='65'){
+            } else if (e.keyCode=='65'){ // Ctrl+A
                 if (e.ctrlKey !== false) {
                     $("#background").click();
-                    $("#workarea > div").addClass("ui-selecting");
+                    $("#workarea div.lefticon").addClass("ui-selecting");
+                    $("#workarea div.line").addClass("ui-selecting");
                     $("#background").removeClass("ui-selecting");
                     
                 }
@@ -176,6 +177,20 @@ function setNewId(el){
     }
 }
 
+// возвращает ID всех элементов на рабочей области
 function getAllElements(){
-    return $("#workarea div:not(#background)");
+    var elements_ids = new Array;
+    elements_ids = $('#workarea > div').map(function(){
+        if ($(this).attr('id')=='background'){
+            //return false;
+        }else if($(this).hasClass('selectobj')){
+            //return false;
+        }else if($(this).hasClass('ready_polygon')){
+            return $(this).find('div.line').attr('id');
+        }else{
+            return $(this).attr('id');
+        }
+    });
+    //console.log(elements_ids);
+    return elements_ids;
 }

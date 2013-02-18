@@ -109,8 +109,8 @@ function selectElement(elem, e){
     if (e.ctrlKey == false) {
         if ($(elem).hasClass("ui-selecting")) return;
         // if command key is pressed don't deselect existing elements
-        $( "#workarea > div" ).removeClass("ui-selected");
-        $( "#workarea > div" ).removeClass("ui-selecting");
+        $( "#workarea div" ).removeClass("ui-selected");
+        $( "#workarea div" ).removeClass("ui-selecting");
         if ($(elem).attr('id')!='background'){
             $(elem).addClass("ui-selecting");
         }
