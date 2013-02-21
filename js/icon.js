@@ -85,6 +85,10 @@ $(function() {
 function addSelectableHandler(element){
     $(element).bind('mousedown', function(e){
         selectElement(this, e);
+        if($('.rotate_ico').hasClass('ui-selecting')){
+            showRotators($(this)); 
+            resizeAndRotate($(this));                     
+        }
     });
 }
 

@@ -114,10 +114,20 @@ $(function(){
                   
                   $('.ready_polygon').on('click.rotate', function(){
                       showRotators($(this));
-                      var lrot = $(this).find('.rleft');
-                      var rrot = $(this).find('.rright');
+                      resizeAndRotate($(this));
                       
-                      $(lrot).add(rrot).draggable({ 
+                      
+                  })
+            }
+        }
+    });  
+    
+})
+
+function resizeAndRotate(obj){
+    var lrot = obj.find('.rleft');
+    var rrot = obj.find('.rright');
+    $(lrot).add(rrot).draggable({ 
                             cursorAt: { left: 5 },
                             start: function(e){
                                 console.log($(e.target).attr('class'))
@@ -165,16 +175,10 @@ $(function(){
                                     addSelectableHandler($(new_obj).find('.line'));
                                     $('#workarea').unbind('mousemove.poly');  
                                     $('.ready_polygon_anymation').remove(); 
-                                    $(e.target).parent().parent().remove();
-                                    
+                                    $(e.target).parent().parent().remove();   
                             }      
                       })
-                  })
-            }
-        }
-    });  
-    
-})
+}
 
 // функция для выделения элементов с помощью мыши
 function bindSelectingStart(){
@@ -406,7 +410,7 @@ function setRotators(line_obj){
 }
 
 function showRotators(obj){
-    hideRotators();
+    hideRotators();         
     obj.find('.rotate_elem').css('display', 'block');
 }
 
