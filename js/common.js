@@ -70,7 +70,8 @@ $(function() {
     
     workareaStartDraggable();
     workareaStartPlace();
-    $('body').disableSelection();
+    $('#workarea').disableSelection();
+    $('#left_tools').disableSelection(); 
     
 });
 

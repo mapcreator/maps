@@ -76,6 +76,56 @@ include 'views/header.php';
     <div id="right_tools" class="col">
          <div id="accordion_right">
             <div class="group">
+                <h3>Attrs</h3>
+                <div id="attrs">
+                <!--
+                    1. цвет линии (просто заливка цветом)
+                    2. стиль (бэкграундом разметки дорог)
+                    3. ширина
+                    4. баллун на клик
+                    5. алт на овер
+                    6. текст (название улицы например)
+                    это должно быть перенесено в функцию для размножения по каждой линии
+                -->
+                    <div id="line_0">  
+                        <div> 
+                        Color  
+                        <input type="minicolors" class="minicolors minicolors-input"> <br />
+                        </div>
+                        <div>
+                        Height
+                        <select class="height">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        </div>
+                        <div>
+                        Style
+                        <select class="style">
+                            <option value="1">---</option>
+                            <option value="2">===</option>
+                        </select>
+                        </div>
+                        <div>
+                        Static text on object
+                        <input type="text" class="statictext">
+                        </div>
+                        <div>
+                        Mouse hover text
+                        <input type="text" class="mhover">
+                        </div>
+                        <div>
+                        Mouse clicked info text
+                        <textarea cols="20" rows="3" class="mcklick"></textarea>
+                        </div>
+                    </div>
+                     
+                </div>
+            </div>
+            <div class="group">
                 <h3>Curves</h3>
                 <div id="curves">
                 

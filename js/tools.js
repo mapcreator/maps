@@ -25,8 +25,8 @@ var draggable_line = draggable_cloned;
 draggable_line.containment = false;
 draggable_line.stack = false;
 
-$(function(){
-    
+$(function(){  
+attrs_init();     
     $('.tool').click(function(e){
         tool = $(this); 
         
@@ -40,7 +40,7 @@ $(function(){
             // клик на бэкграунд после выбора инструмента    
         
             // ОТРИСОВКА ЛИНИИ ИЛИ ПОЛИГОНА ******************************************************
-            if(tool.hasClass('line_ico') || tool.hasClass('polygon_ico')){
+            if(tool.hasClass('line_ico') || tool.hasClass('polygon_ico')){  
                 $('#workarea').on('mousedown.poly', function(e){
                     // берем первые координаты
                     var parentOffset = $(this).offset();
@@ -123,6 +123,32 @@ $(function(){
     });  
     
 })
+
+
+function attrs_init(){
+  
+    $('.minicolors').minicolors({
+        animationSpeed: 100,
+        animationEasing: 'swing',
+        change: null,
+        changeDelay: 0,
+        control: 'hue',
+        defaultValue: '',
+        hide: null,
+        hideSpeed: 100,
+        inline: false,
+        letterCase: 'lowercase',
+        opacity: false,
+        position: 'default',
+        show: null,
+        showSpeed: 100,
+        swatchPosition: 'left',
+        textfield: true,
+        theme: 'bootstrap'
+    });
+   
+}
+
 
 function resizeAndRotate(obj){
     var lrot = obj.find('.rleft');
